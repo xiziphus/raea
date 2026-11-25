@@ -3,6 +3,10 @@
 [target.aarch64-apple-darwin]
 linker = "tools/link-jit.sh"
 
+# Intel Macs (local port): the same JIT-entitled link
+[target.x86_64-apple-darwin]
+linker = "tools/link-jit.sh"
+
 # every Windows executable's main thread gets 8 MB of stack, as on macOS and Linux (Windows' default is 1 MB). The
 # desktop app's raea-page-host overflowed 1 MB inside a window callback (#112); engine/cli/build.rs did this for raea
 # alone. A DLL's link ignores /STACK.

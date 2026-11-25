@@ -23,5 +23,5 @@ ureq = "2"
 # Windows x64: ONNX Runtime is loaded from onnxruntime.dll beside the executable when a model first runs, never linked
 # in (#110; tools/release/onnxruntime.sh ships Microsoft's build). The static runtime ort downloads is built for AVX2, and
 # its static initializers ran before main, so raea.exe stopped at start on any CPU without AVX2 or BMI2.
-[target.'cfg(all(windows, target_arch = "x86_64"))'.dependencies]
+[target.'cfg(all(target_arch = "x86_64", any(windows, target_os = "macos")))'.dependencies]
 ort = { version = "=2.0.0-rc.13", features = ["load-dynamic"] }

@@ -91,12 +91,12 @@ fn travel(m: &raea_sys_kimodo::decode::Motion) -> f32 {
 }
 
 /// Kimodo's PyTorch environment: raea's models folder's kimodo-torch
-#[cfg(not(target_os = "macos"))]
+#[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
 fn torch_env() -> raea_sys_kimodo::torch::Torch {
     raea_sys_kimodo::torch::Torch::at(raea_io_home::models().join("kimodo-torch"))
 }
 
-#[cfg(not(target_os = "macos"))]
+#[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
 fn make(ask: Ask) -> R<String> {
     use raea_sys_kimodo::{decode, skeleton::Skeleton, stats::Stats, torch};
     let t = torch_env();
@@ -143,7 +143,7 @@ fn make(ask: Ask) -> R<String> {
     ))
 }
 
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 fn make(ask: Ask) -> R<String> {
     // float32 as checked against PyTorch: MLX's TF32 matmuls off, before the first one
     if std::env::var_os("MLX_ENABLE_TF32").is_none() {
@@ -175,7 +175,7 @@ fn make(ask: Ask) -> R<String> {
 }
 
 /// a line every 512 MB of each file fetched
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 fn fetching() -> impl FnMut(&str, u64) {
     let mut shown = std::collections::HashMap::<String, u64>::new();
     move |file: &str, n: u64| {
@@ -199,7 +199,7 @@ pub fn setup(args: &[String]) -> R<String> {
     setup_here(check)
 }
 
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 fn setup_here(check: bool) -> R<String> {
     let was = raea_sys_kimodo::installed();
     if !check && was.iter().any(|m| !m.2) {
@@ -227,7 +227,7 @@ fn setup_here(check: bool) -> R<String> {
     Ok(format!("{head}\n{}", lines.join("\n")))
 }
 
-#[cfg(not(target_os = "macos"))]
+#[cfg(not(all(target_os = "macos", target_arch = "aarch64")))]
 fn setup_here(check: bool) -> R<String> {
     let t = torch_env();
     let was = t.missing();

@@ -18,20 +18,20 @@ pub mod skeleton;
 pub mod stats;
 pub mod torch;
 
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 pub mod net;
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 pub mod sample;
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 pub mod text;
 
-#[cfg(all(test, target_os = "macos"))]
+#[cfg(all(test, target_os = "macos", target_arch = "aarch64"))]
 mod tests;
 
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 pub use model::*;
 
-#[cfg(target_os = "macos")]
+#[cfg(all(target_os = "macos", target_arch = "aarch64"))]
 mod model {
     use std::path::{Path, PathBuf};
 
